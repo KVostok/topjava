@@ -24,6 +24,8 @@ public class InMemoryUserRepository implements UserRepository {
 
     {
         this.save(new User(null, "userName", "email@mail.ru", "password", Role.ADMIN));
+        this.save(new User(null, "userName", "email1@mail.ru", "password", Role.USER));
+        this.save(new User(null, "userName1", "email@mail.ru", "password", Role.USER));
     }
 
     @Override
@@ -36,6 +38,7 @@ public class InMemoryUserRepository implements UserRepository {
     public User save(User user) {
         log.info("save {}", user);
 
+        //todo Поле email должно быть уникально. Сделать проверку при создании записи
         if (user.isNew()) {
             user.setId(counter.incrementAndGet());
             repository.put(user.getId(), user);

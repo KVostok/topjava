@@ -6,10 +6,7 @@ import ru.javawebinar.topjava.repository.MealRepository;
 import ru.javawebinar.topjava.util.MealsUtil;
 import ru.javawebinar.topjava.web.SecurityUtil;
 
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
@@ -48,7 +45,7 @@ public class InMemoryMealRepository implements MealRepository {
     }
 
     @Override
-    public Collection<Meal> getAll() {
+    public List<Meal> getAll() {
         return repository.values().stream()
                 .filter(mealDataBase -> isBelongToUserId(mealDataBase.FOREIGN_KEY ,SecurityUtil.authUserId()))
                 //.sorted(Comparator.comparing(mealDataBase -> mealDataBase.meal,(o, t1) -> t1.getDateTime().compareTo(o.getDateTime())))
@@ -60,6 +57,7 @@ public class InMemoryMealRepository implements MealRepository {
     private boolean isBelongToUserId(int foreignKey, int userId){
         return foreignKey == userId;
     }
+
     private static class MealDataBase {
         private final int FOREIGN_KEY = SecurityUtil.authUserId();
         private final Meal meal;
