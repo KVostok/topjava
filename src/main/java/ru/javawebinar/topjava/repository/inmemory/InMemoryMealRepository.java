@@ -1,5 +1,7 @@
 package ru.javawebinar.topjava.repository.inmemory;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.repository.MealRepository;
@@ -13,6 +15,7 @@ import java.util.stream.Collectors;
 
 @Repository
 public class InMemoryMealRepository implements MealRepository {
+    private static final Logger log = LoggerFactory.getLogger(InMemoryMealRepository.class);
     private final Map<Integer, MealDataBase> repository = new ConcurrentHashMap<>();
     private final AtomicInteger counter = new AtomicInteger(0);
 
@@ -26,6 +29,7 @@ public class InMemoryMealRepository implements MealRepository {
 
     @Override
     public Meal save(Meal meal, int userId) {
+        log.info("save {}", meal);
         MealDataBase dataBase = new MealDataBase(meal, userId);
         if (meal.isNew()) {
             meal.setId(counter.incrementAndGet());
@@ -38,6 +42,7 @@ public class InMemoryMealRepository implements MealRepository {
 
     @Override
     public boolean delete(int id, int userId) {
+        log.info("delete {}", id);
         if (isBelongToUserId(repository.get(id).foreignKey ,userId))
             return repository.remove(id) != null;
         return false;
@@ -45,11 +50,13 @@ public class InMemoryMealRepository implements MealRepository {
 
     @Override
     public Meal get(int id, int userId) {
+        log.info("get {}", id);
         return isBelongToUserId(repository.get(id).foreignKey ,userId)?repository.get(id).meal :null;
     }
 
     @Override
     public List<Meal> getAll(int userId) {
+        log.info("getAll");
         return repository.values().stream()
                 .filter(mealDataBase -> isBelongToUserId(mealDataBase.foreignKey ,userId))
                 //.sorted(Comparator.comparing(mealDataBase -> mealDataBase.meal,(o, t1) -> t1.getDateTime().compareTo(o.getDateTime())))

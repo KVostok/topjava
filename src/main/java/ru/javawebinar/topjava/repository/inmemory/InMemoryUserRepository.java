@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
-import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.toList;
 
 @Repository
@@ -38,7 +37,6 @@ public class InMemoryUserRepository implements UserRepository {
     public User save(User user) {
         log.info("save {}", user);
 
-        //todo Поле email должно быть уникально. Сделать проверку при создании записи
         if (user.isNew()) {
             user.setId(counter.incrementAndGet());
             repository.put(user.getId(), user);
