@@ -7,12 +7,31 @@
 <head>
     <title>Meal list</title>
     <style>
+        /*Excess*/
         .normal {
             color: green;
         }
 
         .excess {
             color: red;
+        }
+
+        /*form*/
+        dl {
+            background: none repeat scroll 0 0 #FAFAFA;
+            margin: 8px 0;
+            padding: 0;
+        }
+
+        dt {
+            display: inline-block;
+            width: 170px;
+        }
+
+        dd {
+            display: inline-block;
+            margin-left: 8px;
+            vertical-align: top;
         }
     </style>
 </head>
@@ -21,6 +40,29 @@
     <h3><a href="index.html">Home</a></h3>
     <hr/>
     <h2>Meals</h2>
+
+    <form method="post" action="filter">
+        <dl>
+            <dt>Date from (include):</dt>
+            <dd><input type="date" name="datefrom"></dd>
+        </dl>
+        <dl>
+            <dt>Date to (include):</dt>
+            <dd><input type="date" name="dateto"></dd>
+        </dl>
+        <dl>
+            <dt>Time from (include):</dt>
+            <dd><input type="time" name="timefrom"></dd>
+        </dl>
+        <dl>
+            <dt>Time to (exclude):</dt>
+            <dd><input type="time" name="timeto"></dd>
+        </dl>
+        <button type="submit">Filter</button>
+        <button type="button">Cancel</button>
+    </form>
+
+    <hr/>
     <a href="meals?action=create">Add Meal</a>
     <br><br>
     <table border="1" cellpadding="8" cellspacing="0">
