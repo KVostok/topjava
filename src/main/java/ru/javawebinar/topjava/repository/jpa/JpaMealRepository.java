@@ -3,6 +3,7 @@ package ru.javawebinar.topjava.repository.jpa;
 import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.repository.MealRepository;
@@ -11,6 +12,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
+
+import static ru.javawebinar.topjava.util.ValidationUtil.checkNotFound;
 
 @Repository
 @Transactional(readOnly = true)
@@ -28,7 +32,10 @@ public class JpaMealRepository implements MealRepository {
             em.persist(meal);
             return meal;
         } else {
-            return em.merge(meal);
+            Meal mealFromDB = get(meal.id(), userId);
+            if (Objects.nonNull(mealFromDB))
+                return em.merge(meal);
+            else return null;
         }
     }
 
