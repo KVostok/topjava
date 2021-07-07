@@ -39,6 +39,7 @@ public class InMemoryAdminRestControllerTest {
         repository.init();
     }
 
+    @Test
     public void delete() {
         controller.delete(USER_ID);
         Assert.assertNull(repository.get(USER_ID));
