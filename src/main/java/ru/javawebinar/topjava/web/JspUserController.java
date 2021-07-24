@@ -10,7 +10,7 @@ import ru.javawebinar.topjava.service.UserService;
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
-public class RootController {
+public class JspUserController{
     @Autowired
     private UserService service;
 
